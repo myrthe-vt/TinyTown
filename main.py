@@ -4,6 +4,7 @@ import discord #basic functions
 import numpy #calling the random inhabitants
 import datetime #changing seconds to hours and minutes
 import os #accessing operating system info
+import random #Generating random number
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
@@ -95,7 +96,7 @@ global flowercounter
 flowercounter = 0
 
 @client.command()
-@commands.cooldown(1,6*60, type=commands.BucketType.user)
+@commands.cooldown(1,60*60, type=commands.BucketType.user)
 async def flowers(ctx):
     global flowercounter
     flowers = numpy.random.normal(loc = 4, scale = 4)
@@ -110,17 +111,59 @@ async def cooldown_flowers(ctx, error):
     else:
         raise error
 
+# Fishing
+global fish
+fishcounter = 0
+
+@client.command()
+@commands.cooldown(1,60*30, type=commands.BucketType.user)
+async def fish(ctx):
+    global fishcounter
+    chance = random.randint(1,100)
+    if chance <= 80:
+        fishcounter = fishcounter + 1
+        await ctx.send("Congrats! You caught a fish. Your total is now %d." % (fishcounter,))
+    else:
+        await ctx.send("Oh no! You didn't catch a fish. Try again later!")
+
+@fish.error()
+async def cooldown_fish(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = 'You cannot fish yet! Please wait {:.0f} seconds.'.format(error.retry_after)
+        await ctx.send(msg)
+
+# Catching bugs
+global bugs
+bugcounter = 0
+
+@client.command()
+@commands.cooldown(1,60*30, type=commands.BucketType.user)
+async def bugs(ctx):
+    global bugcounter
+    chance = random.randint(1,100)
+    if chance <= 60:
+        bugcounter = bugcounter + 1
+        await ctx.send("Congrats! You caught a bug. Your total is now %d." % (bugcounter,))
+    else:
+        await ctx.send("Oh no! You didn't catch a bug. Try again later!")
+
+@bugs.error()
+async def cooldown_bugs(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = 'You cannot catch a bug yet! Please wait {:.0f} seconds.'.format(error.retry_after)
+        await ctx.send(msg)
+
 # The stats of your town
 @client.command()
 async def townystats(ctx):
-    await ctx.send("You now have %d inhabitants in your town! You also have %d wood, %d stones and %d flowers. You have built: %d parks and %d schools." % (counter, woodcounter, miningcounter, flowercounter, parks, schools))
+    await ctx.send("You now have %d inhabitants in your town! You also have %d wood, %d stones and %d flowers, as well as %d fish and %d bugs. You have built: %d parks and %d schools." % (counter, woodcounter, miningcounter, flowercounter, fishcounter, bugcounter, parks, schools))
 
 
 #### BUILDING ####
 #What can you build?
 @client.command()
 async def build(ctx):
-    await ctx.send("You can choose to build a park or a school. Type .park for a park and .school for a school.")
+    await ctx.send("You can choose to build a park, a school or a museum. Type .park for a park and .school for a school.")
 
 #Building a park
 global parks
@@ -157,6 +200,43 @@ async def school(ctx):
         miningcounter = miningcounter - value
         schools = schools + 1
         await ctx.send("You built a school! You now have %d schools" % (schools,))
+
+#Building a museum
+global museums
+museums = 0
+
+@client.command()
+async def museum(ctx):
+    global woodcounter
+    global miningcounter
+    global flowercounter
+    global fishcounter
+    global bugcounter
+    global museums
+    value_wood = 20
+    value_stones = 10
+    value_flowers = 15
+    value_fish = 5
+    value_bug = 5
+    if woodcounter < value_wood:
+        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+    elif miningcounter < value_stones:
+        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+    elif flowercounter < value_flowers:
+        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+    elif fishcounter < value_fish:
+        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+    elif bugcounter < value_bug:
+        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+    else:
+        woodcounter = woodcounter - value_wood
+        miningcounter = miningcounter - value_stones
+        flowercounter = flowercounter - value_flowers
+        fishcounter = fishcounter - value_fish
+        bugcounter = bugcounter - value_bug
+        museums = museums + 1
+        await ctx.send("Congratulations! You built a museum! You now have %d museums." % (museums,))
+
 
 # Adding the token that belongs to the bot
 client.run(os.environ['CLIENT_TOKEN']) #Send me a request if you want the token
