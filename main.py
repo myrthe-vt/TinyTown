@@ -112,7 +112,7 @@ async def cooldown_flowers(ctx, error):
         raise error
 
 # Fishing
-global fish
+global fishcounter
 fishcounter = 0
 
 @client.command()
@@ -126,11 +126,13 @@ async def fish(ctx):
     else:
         await ctx.send("Oh no! You didn't catch a fish. Try again later!")
 
-@fish.error()
+@fish.error
 async def cooldown_fish(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = 'You cannot fish yet! Please wait {:.0f} seconds.'.format(error.retry_after)
         await ctx.send(msg)
+    else:
+        raise error 
 
 # Catching bugs
 global bugs
@@ -147,16 +149,18 @@ async def bugs(ctx):
     else:
         await ctx.send("Oh no! You didn't catch a bug. Try again later!")
 
-@bugs.error()
+@bugs.error
 async def cooldown_bugs(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = 'You cannot catch a bug yet! Please wait {:.0f} seconds.'.format(error.retry_after)
         await ctx.send(msg)
+    else:
+        raise error 
 
 # The stats of your town
 @client.command()
 async def townystats(ctx):
-    await ctx.send("You now have %d inhabitants in your town! You also have %d wood, %d stones and %d flowers, as well as %d fish and %d bugs. You have built: %d parks and %d schools." % (counter, woodcounter, miningcounter, flowercounter, fishcounter, bugcounter, parks, schools))
+    await ctx.send("You now have %d inhabitants in your town! You also have %d wood, %d stones and %d flowers, as well as %d fish and %d bugs. You have built: %d parks, %d schools and %d museums." % (counter, woodcounter, miningcounter, flowercounter, fishcounter, bugcounter, parks, schools, museums))
 
 
 #### BUILDING ####
