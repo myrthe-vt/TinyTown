@@ -3,6 +3,7 @@
 import discord #basic functions
 import numpy #calling the random inhabitants
 import datetime #changing seconds to hours and minutes
+import os #accessing operating system info
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
@@ -158,4 +159,4 @@ async def school(ctx):
         await ctx.send("You built a school! You now have %d schools" % (schools,))
 
 # Adding the token that belongs to the bot
-client.run('X') #Send me a request if you want the token
+client.run(os.environ['CLIENT_TOKEN']) #Send me a request if you want the token
