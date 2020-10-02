@@ -2,17 +2,9 @@
 # Importing both discord.py and the commands that belong to discord.py
 import discord #basic functions
 import numpy #calling the random inhabitants
-import logging #logging for debugging
 import datetime #changing seconds to hours and minutes
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
-
-# Setting up logging
-logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
 
 # Adding a client variable
 client = commands.Bot(command_prefix = '.')
