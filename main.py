@@ -99,7 +99,7 @@ flowercounter = 0
 @commands.cooldown(1,60*60, type=commands.BucketType.user)
 async def flowers(ctx):
     global flowercounter
-    flowers = numpy.random.normal(loc = 4, scale = 4)
+    flowers = random.randint(1,4)
     flowercounter += flowers
     await ctx.send("You picked %d flowers." % (flowers,))
 
@@ -160,54 +160,73 @@ async def cooldown_bugs(ctx, error):
 # The stats of your town
 @client.command()
 async def townystats(ctx):
-    await ctx.send("You now have %d inhabitants in your town! You also have %d wood, %d stones and %d flowers, as well as %d fish and %d bugs. You have built: %d parks, %d schools and %d museums." % (counter, woodcounter, miningcounter, flowercounter, fishcounter, bugcounter, parks, schools, museums))
-
+    await ctx.send("You now have %d inhabitants in your town! You also have %d wood, %d stones and %d flowers, as well as %d fish and %d bugs." % (counter, woodcounter, miningcounter, flowercounter, fishcounter, bugcounter))
+    await ctx.send("You also have the following buildings: a level %d park, a level %d school, and a level %d museum." % (park_level, school_level, museum_level))
 
 #### BUILDING ####
 #What can you build?
 @client.command()
 async def build(ctx):
-    await ctx.send("You can choose to build a park, a school or a museum. Type .park for a park and .school for a school.")
+    await ctx.send("You can choose to build a park, a school or a museum. Type .park for a park, .school for a school and .museum for a museum.")
 
 #Building a park
-global parks
-parks = 0
+global park
+park_level = 0
 
 @client.command()
 async def park(ctx):
     global flowercounter
-    global parks
+    global park_level
     value = 5
-    if flowercounter < value:
-        await ctx.send("You need 5 flowers to build a park. Try again when you have collected enough!")
+    if park_level == 0:
+        if flowercounter < value:
+            await ctx.send("You need 5 flowers to build a park. Try again when you have collected enough!")
+        else:
+            flowercounter = flowercounter - value
+            park_level = park_level + 1
+            await ctx.send("You built a park! You now have a level-1 park")
     else:
-        flowercounter = flowercounter - value
-        parks = parks + 1
-        await ctx.send("You built a park! You now have %d parks" % (parks,))
+        if flowercounter < value:
+            await ctx.send("You need to have 5 flowers to level up your park. Try again when you have collected enough!")
+        else:
+            flowercounter = flowercounter - value
+            park_level = park_level + 1
+            await ctx.send("You have upgraded your park! You park is now level %d." % (park_level,))
 
 #Building a school
-global schools
-schools = 0
+global school
+school_level = 0
 
 @client.command()
 async def school(ctx):
     global woodcounter
     global miningcounter
-    global schools
-    value = 10
-    if woodcounter < value:
-        await ctx.send("You need to have 10 wood and 10 stones to build a school. Try again when you have collected enough!")
-    elif miningcounter < value:
-        await ctx.send("You need to have 10 wood and 10 stones to build a school. Try again when you have collected enough!")
+    global school_level
+    value = 20
+    if school_level == 0:
+        if woodcounter < value:
+            await ctx.send("You need to have 20 wood and 20 stones to build a school. Try again when you have collected enough!")
+        elif miningcounter < value:
+            await ctx.send("You need to have 20 wood and 20 stones to build a school. Try again when you have collected enough!")
+        else:
+            woodcounter = woodcounter - value
+            miningcounter = miningcounter - value
+            school.level = school.level + 1
+            await ctx.send("You built a school! Your school is now level %d." % (school_level,))
     else:
-        woodcounter = woodcounter - value
-        miningcounter = miningcounter - value
-        schools = schools + 1
-        await ctx.send("You built a school! You now have %d schools" % (schools,))
+        if woodcounter < value:
+            await ctx.send("You need to have 20 wood and 20 stones to upgrade your school. Try again when you have collected enough!")
+        elif miningcounter < value:
+            await ctx.send("You need to have 20 wood and 20 stones to upgrade your school. Try again when you have collected enough!")
+        else:
+           woodcounter = woodcounter - value
+           miningcounter = miningcounter - value
+           school.level = school.level + 1
+           await ctx.send("You upgraded your school! Your school is now level %d." % (school_level,))
 
 #Building a museum
 global museums
-museums = 0
+museum_level = 0
 
 @client.command()
 async def museum(ctx):
@@ -216,30 +235,50 @@ async def museum(ctx):
     global flowercounter
     global fishcounter
     global bugcounter
-    global museums
+    global museum_level
     value_wood = 20
     value_stones = 10
     value_flowers = 15
     value_fish = 5
     value_bug = 5
-    if woodcounter < value_wood:
-        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
-    elif miningcounter < value_stones:
-        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
-    elif flowercounter < value_flowers:
-        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
-    elif fishcounter < value_fish:
-        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
-    elif bugcounter < value_bug:
-        await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+    if museum_level == 0:
+        if woodcounter < value_wood:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+        elif miningcounter < value_stones:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+        elif flowercounter < value_flowers:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+        elif fishcounter < value_fish:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+        elif bugcounter < value_bug:
+           await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to build a museum. Try again when you have all the resources!")
+        else:
+            woodcounter = woodcounter - value_wood
+            miningcounter = miningcounter - value_stones
+            flowercounter = flowercounter - value_flowers
+            fishcounter = fishcounter - value_fish
+            bugcounter = bugcounter - value_bug
+            museum_level = museum_level + 1
+            await ctx.send("Congratulations! You built a level 1 museum.")
     else:
-        woodcounter = woodcounter - value_wood
-        miningcounter = miningcounter - value_stones
-        flowercounter = flowercounter - value_flowers
-        fishcounter = fishcounter - value_fish
-        bugcounter = bugcounter - value_bug
-        museums = museums + 1
-        await ctx.send("Congratulations! You built a museum! You now have %d museums." % (museums,))
+        if woodcounter < value_wood:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to upgrade your museum. Try again when you have all the resources!")
+        elif miningcounter < value_stones:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to upgrade your museum. Try again when you have all the resources!")
+        elif flowercounter < value_flowers:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to upgrade your museum. Try again when you have all the resources!")
+        elif fishcounter < value_fish:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to upgrade your museum. Try again when you have all the resources!")
+        elif bugcounter < value_bug:
+            await ctx.send("You need to have 20 wood, 10 stones, 15 flowers, 5 fish and 5 bugs to upgrade your museum. Try again when you have all the resources!")
+        else:
+            woodcounter = woodcounter - value_wood
+            miningcounter = miningcounter - value_stones
+            flowercounter = flowercounter - value_flowers
+            fishcounter = fishcounter - value_fish
+            bugcounter = bugcounter - value_bug
+            museum_level = museum_level + 1
+            await ctx.send("Congratulations! You built a level 1 museum.")
 
 
 # Adding the token that belongs to the bot
