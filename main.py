@@ -9,7 +9,7 @@ from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
 # Adding a client variable
-client = commands.Bot(command_prefix = '^')
+client = commands.Bot(command_prefix = '.')
 
 # ping pong to check the latency
 @client.command()
