@@ -9,7 +9,7 @@ from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
 # Adding a client variable
-client = commands.Bot(command_prefix = '.')
+client = commands.Bot(command_prefix = '^')
 
 # ping pong to check the latency
 @client.command()
@@ -46,11 +46,10 @@ async def cooldown_towny(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         m, s = divmod(error.retry_after, 60)
         h, m = divmod(m, 60)
-        msg = 'New people only move in once a day. Try again in {:d}:{:02d}:{:02d}.'.format(h, m, s)
+        msg = 'New people only move in once a day. Try again in {:.0f} hours, {:.0f} minutes and {:.0f} seconds.'.format(h, m, s)
         await ctx.send(msg)
     else:
         raise error 
-
 
 # Chopping wood
 global woodcounter
@@ -69,7 +68,7 @@ async def cooldown_wood(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         m, s = divmod(error.retry_after, 60)
         h, m = divmod(m, 60)
-        msg = 'You cannot chop wood yet. Try again in {:d}:{:02d}:{:02d}.'.format(h, m, s)        
+        msg = 'You cannot chop wood yet. Try again in {:.0f} hours, {:.0f} minutes and {:.0f} seconds.'.format(h, m, s)        
         await ctx.send(msg)
     else:
         raise error 
@@ -91,7 +90,7 @@ async def cooldown_mining(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         m, s = divmod(error.retry_after, 60)
         h, m = divmod(m, 60)
-        msg = 'You cannot mine yet. Try again in {:d}:{:02d}:{:02d}.'.format(h, m, s)        
+        msg = 'You cannot mine yet. Try again in {:.0f} hours, {:.0f} minutes and {:.0f} seconds.'.format(h, m, s)        
         await ctx.send(msg)
     else:
         raise error
@@ -113,7 +112,7 @@ async def cooldown_flowers(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         m, s = divmod(error.retry_after, 60)
         h, m = divmod(m, 60)
-        msg = 'You cannot pick flowers yet. Try again in {:d}:{:02d}:{:02d}.'.format(h, m, s)        
+        msg = 'You cannot pick flowers yet. Try again in {:.0f} hours, {:.0f} minutes and {:.0f} seconds.'.format(h, m, s)        
         await ctx.send(msg)
     else:
         raise error
@@ -138,7 +137,7 @@ async def cooldown_fish(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         m, s = divmod(error.retry_after, 60)
         h, m = divmod(m, 60)
-        msg = 'You cannot fish yet. Try again in {:d}:{:02d}:{:02d}.'.format(h, m, s)        
+        msg = 'You cannot fish yet. Try again in {:.0f} hours, {:.0f} minutes and {:.0f} seconds.'.format(h, m, s)        
         await ctx.send(msg)
     else:
         raise error 
@@ -163,7 +162,7 @@ async def cooldown_bugs(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         m, s = divmod(error.retry_after, 60)
         h, m = divmod(m, 60)
-        msg = 'You cannot catch a bug yet! Please wait {:d}:{:02d}:{:02d}.'.format(h, m, s)
+        msg = 'You cannot catch a bug yet! Try again in {:.0f} hours, {:.0f} minutes and {:.0f} seconds.'.format(h, m, s)
         await ctx.send(msg)
     else:
         raise error 
