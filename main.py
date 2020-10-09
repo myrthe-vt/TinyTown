@@ -1,15 +1,35 @@
 #### Setting up the bot ####
 # Importing both discord.py and the commands that belong to discord.py
-import discord #basic functions
-import numpy #calling the random inhabitants
-import datetime #changing seconds to hours and minutes
-import os #accessing operating system info
-import random #Generating random number
+import discord      #basic functions
+import numpy        #calling the random inhabitants
+import datetime     #changing seconds to hours and minutes
+import os           #accessing operating system info
+import random       #Generating random number
+import sqlite3      #Creating and saving a database 
+import traceback    #Traceback for cogs
+import sys          #For cogs
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
 # Adding a client variable
 client = commands.Bot(command_prefix = '.')
+
+# Setting up cogs
+initial_extensions = ['Cogs.cog', 'Cogs.leveling', 'Cogs.townnames']
+
+if __name__ == '__main__':
+    for extension in initial_extensions:
+        try:
+            client.load_extension(extension)
+        except Exception as e:
+            print(f'Sorry, I could not load extension {extension}', file = sys.stderr)
+            traceback.print_exc()
+
+# Bot event: print when it goes live
+# Additionally: connecting to the database
+@client.event
+async def on_ready():
+    print("I am live!")
 
 # ping pong to check the latency
 @client.command()
@@ -194,7 +214,7 @@ async def park(ctx):
         else:
             flowercounter = flowercounter - value
             park_level = park_level + 1
-            await ctx.send("You built a park! You now have a level-1 park")
+            await ctx.send("You built a park! You now have a level 1 park")
     else:
         if flowercounter < value:
             await ctx.send("You need to have 5 flowers to level up your park. Try again when you have collected enough!")
