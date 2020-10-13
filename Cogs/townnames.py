@@ -1,11 +1,11 @@
 # Importing both discord.py and the commands that belong to discord.py
-import discord      #basic functions
-import numpy        #calling the random inhabitants
-import datetime     #changing seconds to hours and minutes
-import os           #accessing operating system info
-import random       #Generating random number
-import sqlite3      #Creating and saving a database 
-import math         #For the leveling system
+import discord          #basic functions
+import numpy            #calling the random inhabitants
+import datetime         #changing seconds to hours and minutes
+import os               #accessing operating system info
+import random           #Generating random number
+import sqlite3          #Creating and saving a database 
+import math             #For the leveling system
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
