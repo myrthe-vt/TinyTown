@@ -5,7 +5,7 @@ import numpy            #calling the random inhabitants
 import datetime         #changing seconds to hours and minutes
 import os               #accessing operating system info
 import random           #Generating random number
-import mysql.connector  #Creating and saving a database 
+import sqlite3          #Local databaseS
 import traceback        #Traceback for cogs
 import sys              #For cogs
 from discord.ext import commands
