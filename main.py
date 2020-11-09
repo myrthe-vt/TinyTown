@@ -6,7 +6,6 @@ import datetime         #changing seconds to hours and minutes
 import os               #accessing operating system info
 import random           #Generating random number
 import mysql.connector  #Creating and saving a database 
-import sqlite3          #Local databaseS
 import traceback        #Traceback for cogs
 import sys              #For cogs
 from discord.ext import commands
@@ -40,7 +39,15 @@ async def ping(ctx):
 # Precious loved and worthy affirmation
 @client.command()
 async def affirmations(ctx):
-    await ctx.send('You are precious, loved and worthy!')
+    messages = ["You are precious, loved and worthy!", "You are beautiful, inside and out!", "You have a positive impact on this world!", 
+    "Just keep moving forward, you got this!", "You are a wonderful person who deserves everything this world has to offer!",
+    "You are honestly amazing!", "You are one of the nicest people I've ever seen!", "Your heart is so big and beautiful!", 
+    "You mean a lot to me!", "You are strong and brave!", "You are so much stronger and braver than you think, lovely!",
+    "You are spectacular!", "You are breathtaking!", "You are amazing!", "You are the bee's knees!", "You are legendary!",
+    "You are sublime!", "I believe in you!", "I am so proud of you!", "You deserve love, compassion and empathy!", "You are enough!",
+    "You matter!", "You are excellent!", "You are enough!", "You are worthy!", "You're doing your best!", "You deserve to be happy!",
+    "You are astonishing!", "You are awesome!", "You are stellar!"]
+    await ctx.send(random.choice(messages))
 
 # Invite link
 @client.command()
@@ -49,7 +56,7 @@ async def invite(ctx):
 
 #### TINYTOWN ####
 #Stats of the town
-@commands.command()
+@client.command()
 async def townystats(self, ctx):
     db = sqlite3.connect('main.sqlite')
     cursor = db.cursor()
