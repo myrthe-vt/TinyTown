@@ -8,6 +8,7 @@ import random           #Generating random number
 import sqlite3          #Local databaseS
 import traceback        #Traceback for cogs
 import sys              #For cogs
+from utility import safe_cast_to_int
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
@@ -57,18 +58,18 @@ async def invite(ctx):
 #### TINYTOWN ####
 #Stats of the town
 @client.command()
-async def townystats(self, ctx):
+async def townystats(ctx):
     db = sqlite3.connect('main.sqlite')
     cursor = db.cursor()
     cursor.execute(f"SELECT user_id, inhabitants, wood, stones, flowers, fish, bugs FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
     result = cursor.fetchone()
 
-    inhabitants = int(result[1])
-    wood = int(result[2])
-    stones = int(result[3])
-    flowers = int(result[4])
-    fish = int(result[5])
-    bugs = int(result[6])
+    inhabitants = safe_cast_to_int(result[1])
+    wood = safe_cast_to_int(result[2])
+    stones = safe_cast_to_int(result[3])
+    flowers = safe_cast_to_int(result[4])
+    fish = safe_cast_to_int(result[5])
+    bugs = safe_cast_to_int(result[6])
 
     await ctx.send('You now have %d inhabitants in your town! You also have %d wood, %d stones and %d flowers, as well as %d fish and %d bugs.' %(inhabitants, wood, stones, flowers, fish, bugs))
 

@@ -7,6 +7,7 @@ import mysql.connector  #Creating and saving a database
 import sqlite3          #Local databaseS
 import traceback        #Traceback for cogs
 import sys              #For cogs
+from utility import safe_cast_to_int
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
@@ -37,8 +38,8 @@ class BuildingCog(commands.Cog, name = 'Building'):
         else:
             cursor.execute(f"SELECT user_id, flowers, parks FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            flowers = int(result1[1])
-            parks = int(result1[2])
+            flowers = safe_cast_to_int(result1[1])
+            parks = safe_cast_to_int(result1[2])
             value = 5 * parks
 
             if parks == 0:
@@ -78,9 +79,9 @@ class BuildingCog(commands.Cog, name = 'Building'):
         else:
             cursor.execute(f"SELECT user_id, wood, stones, schools FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            wood = int(result1[1])
-            stones = int(result1[2])
-            schools = int(result1[3])
+            wood = safe_cast_to_int(result1[1])
+            stones = safe_cast_to_int(result1[2])
+            schools = safe_cast_to_int(result1[3])
             value1 = 8 * schools + 20
             value2 = 6 * schools + 20
 
@@ -123,12 +124,12 @@ class BuildingCog(commands.Cog, name = 'Building'):
         else:
             cursor.execute(f"SELECT user_id, wood, stones, flowers, fish, bugs, museums FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            wood = int(result1[1])
-            stones = int(result1[2])
-            flowers = int(result1[3])
-            fish = int(result1[4])
-            bugs = int(result1[5])
-            museums = int(result1[6])
+            wood = safe_cast_to_int(result1[1])
+            stones = safe_cast_to_int(result1[2])
+            flowers = safe_cast_to_int(result1[3])
+            fish = safe_cast_to_int(result1[4])
+            bugs = safe_cast_to_int(result1[5])
+            museums = safe_cast_to_int(result1[6])
             value_wood = 8 * museums + 20
             value_stones = 6 * museums + 20
             value_flowers = 8 * museums + 15

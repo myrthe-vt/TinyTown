@@ -6,6 +6,7 @@ import random           #Generating random number
 import sqlite3          #Local databaseS
 import traceback        #Traceback for cogs
 import sys              #For cogs
+from utility import safe_cast_to_int
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
@@ -38,7 +39,7 @@ class GatheringCog(commands.Cog, name = 'Gathering'):
         else:
             cursor.execute(f"SELECT user_id, inhabitants FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            people = int(result1[1])
+            people = safe_cast_to_int(result1[1])
 
             sql = ("UPDATE gathering SET inhabitants = ? WHERE guild_id = ? and user_id = ?")
             val = (people + inhabitants, str(ctx.message.guild.id), str(ctx.message.author.id))
@@ -80,7 +81,7 @@ class GatheringCog(commands.Cog, name = 'Gathering'):
         else:
             cursor.execute(f"SELECT user_id, wood FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            woodcurrent = int(result1[1])
+            woodcurrent = safe_cast_to_int(result1[1])
 
             sql = ("UPDATE gathering SET wood = ? WHERE guild_id = ? and user_id = ?")
             val = (woodcurrent + wood, str(ctx.message.guild.id), str(ctx.message.author.id))
@@ -121,7 +122,7 @@ class GatheringCog(commands.Cog, name = 'Gathering'):
         else:
             cursor.execute(f"SELECT user_id, stones FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            stonescurrent = int(result1[1])
+            stonescurrent = safe_cast_to_int(result1[1])
 
             sql = ("UPDATE gathering SET stones = ? WHERE guild_id = ? and user_id = ?")
             val = (stonescurrent + stones, str(ctx.message.guild.id), str(ctx.message.author.id))
@@ -163,7 +164,7 @@ class GatheringCog(commands.Cog, name = 'Gathering'):
         else:
             cursor.execute(f"SELECT user_id, flowers FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            flowerscurrent = int(result1[1])
+            flowerscurrent = safe_cast_to_int(result1[1])
 
             sql = ("UPDATE gathering SET wood = ? WHERE guild_id = ? and user_id = ?")
             val = (flowerscurrent + flowers, str(ctx.message.guild.id), str(ctx.message.author.id))
@@ -204,7 +205,7 @@ class GatheringCog(commands.Cog, name = 'Gathering'):
         else:
             cursor.execute(f"SELECT user_id, fish FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            fishcurrent = int(result1[1])
+            fishcurrent = safe_cast_to_int(result1[1])
 
             sql = ("UPDATE gathering SET fish = ? WHERE guild_id = ? and user_id = ?")
             val = (fishcurrent + fish, str(ctx.message.guild.id), str(ctx.message.author.id))
@@ -245,7 +246,7 @@ class GatheringCog(commands.Cog, name = 'Gathering'):
         else:
             cursor.execute(f"SELECT user_id, bugs FROM gathering WHERE guild_id = '{ctx.message.guild.id}' and user_id = '{ctx.message.author.id}'")
             result1 = cursor.fetchone()
-            bugscurrent = int(result1[1])
+            bugscurrent = safe_cast_to_int(result1[1])
 
             sql = ("UPDATE gathering SET bugs = ? WHERE guild_id = ? and user_id = ?")
             val = (bugscurrent + bugs, str(ctx.message.guild.id), str(ctx.message.author.id))

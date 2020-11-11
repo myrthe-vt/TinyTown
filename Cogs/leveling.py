@@ -6,6 +6,7 @@ import os           #accessing operating system info
 import random       #Generating random number
 import sqlite3      #Creating and saving a database 
 import math         #For the leveling system
+from utility import safe_cast_to_int
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
@@ -28,7 +29,7 @@ class LevelCog(commands.Cog, name = 'Leveling'):
         else:
             cursor.execute(f"SELECT user_id, exp, level FROM levels WHERE guild_id = '{message.guild.id}' and user_id = '{message.author.id}'")
             result1 = cursor.fetchone()
-            exp = int(result1[1])
+            exp = safe_cast_to_int(result1[1])
             sql = ("UPDATE levels SET exp = ? WHERE guild_id = ? and user_id = ?")
             val = (exp + 2, str(message.guild.id), str(message.author.id))
             cursor.execute(sql, val)
@@ -37,17 +38,17 @@ class LevelCog(commands.Cog, name = 'Leveling'):
             cursor.execute(f"SELECT user_id, exp, level FROM levels WHERE guild_id = '{message.guild.id}' and user_id = '{message.author.id}'")
             result2 = cursor.fetchone()
 
-            xp_start = int(result2[1])
-            lvl_start = int(result2[2])
+            xp_start = safe_cast_to_int(result2[1])
+            lvl_start = safe_cast_to_int(result2[2])
             xp_end = math.floor(5 * (lvl_start ^ 2) + 50 * lvl_start + 100)
             if xp_end < xp_start:
                 await message.channel.send(f'{message.author.mention} has leveled up to level {lvl_start + 1}')
                 sql = ("UPDATE levels SET level = ? WHERE guild_id = ? and user_id = ?")
-                val = (int(lvl_start + 1), str(message.guild.id), str(message.user.id))
+                val = (int(lvl_start + 1), str(message.guild.id), str(message.author.id))
                 cursor.execute(sql, val)
                 db.commit()
                 sql = ("UPDATE levels SET exp = ? WHERE guild_id = ? and user_id = ?")
-                val = (0, str(message.guild.id), str(message.user.id))
+                val = (0, str(message.guild.id), str(message.author.id))
                 cursor.execute(sql, val)
                 db.commit()
                 cursor.close()
