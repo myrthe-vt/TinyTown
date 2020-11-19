@@ -1,6 +1,6 @@
 # TinyTown
 ## [Add me to your server here!](https://discord.com/api/oauth2/authorize?client_id=761329713121198091&permissions=8&scope=bot)
-TinyTown is a small discord bot that lets you build a cute village. Gather resources like wood and stone, and build parks, museums and other buildings! 
+TinyTown is a small text-based discord bot that lets you build a cute village. Gather resources like wood and stone, and build parks, museums and other buildings! 
 Additionally, TinyTown provides an easy-to-understand leveling system. Finally, we have a command that gives you random words of praise and affirmations. 
 
 ## Contributing
